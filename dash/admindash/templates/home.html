@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to Admin Dashboard</h1>
+    <h2>Detector Status: 
+        {% if detectorRunning %}
+            <span style="color: green;">Running</span>
+        {% else %}
+            <span style="color: red;">Stopped</span>
+        {% endif %}
+    </h2>
+    <form action="{% url 'toggle_detector' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Toggle Detector</button>
+    </form>
+
+    <form action="{% url 'network_usage' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Network Usage</button>
+    </form>
+
+    <form action="{% url 'dpi_alerts' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">DPI Alerts</button>
+    </form>
+
+    <form action="{% url 'snort_alerts' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Snort Alerts</button>
+    </form>
+
+    <form action="{% url 'logout' %}" method="POST"></form>
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
+</body>
+</html>

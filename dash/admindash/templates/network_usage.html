@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Network Usage</title>
+    </head>
+
+    <body>
+        <h1>Network Usage</h1>
+        <h2>MAC Address Data</h2>
+    <table>
+        <tr>
+            <th>MAC Address</th>
+            <th>Bytes Sent</th>
+            <th>Bytes Received</th>
+        </tr>
+        {% for key, value in data.items %}
+        <tr>
+            <td>{{ value.mac }}</td>
+            <td>{{ value.bytes_sent }}</td>
+            <td>{{ value.bytes_received }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+        <form action="{% url 'home' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Home</button>
+        </form>
+    </body>
+</html>

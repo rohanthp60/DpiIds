@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Alerts</title>
+    </head>
+    <body>
+        <h1>Alerts</h1>
+        <h2>Alerts Data</h2>
+        <table border="1">
+            <tr>
+                <th>Timestamp</th>
+                <th>Threat Level</th>
+                <th>Source IP</th>
+                <th>Destination IP</th>
+            </tr>
+            {% for alert in alerts %}
+            <tr>
+                <td>{{ alert.timestamp }}</td>
+                <td>{{ alert.threat_level }}</td>
+                <td>{{ alert.source_ip }}</td>
+                <td>{{ alert.destination_ip }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <form action="{% url 'home' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Home</button>
+        </form>
+    </body>
+</html>
