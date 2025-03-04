@@ -38,6 +38,7 @@ def toggle_detector(request):
     global detectorRunning
     global detector
     global snort_process
+    global dpi_detector
     password = "rohan20603"
     snort_command = "sudo snort -A fast -q -c /etc/snort/snort.conf -r /home/vm3/Codes/DpiIds/snort_fifo.pcap"
     detector_command = 'sudo go run /home/vm3/Codes/DpiIds/snortFilter.go'

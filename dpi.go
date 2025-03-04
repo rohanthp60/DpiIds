@@ -14,7 +14,7 @@ import (
 	"github.com/google/gopacket/pcap"
 )
 
-// ThreatLevel represents the severity of a potential network threat
+
 type ThreatLevel int
 
 const (
@@ -24,14 +24,14 @@ const (
 	CriticalThreat
 )
 
-// ThreatSignature defines a structure for identifying potential threats
+
 type ThreatSignature struct {
 	Pattern     *regexp.Regexp
 	Description string
 	Severity    ThreatLevel
 }
 
-// Flow represents a network flow (source IP, destination IP, ports, etc.)
+
 type Flow struct {
 	SrcIP    net.IP
 	DstIP    net.IP
@@ -44,9 +44,9 @@ type Flow struct {
 
 const logFilePath = "/home/vm3/Codes/DpiIds/threat_log.txt"
 
-// Function to log threats to a file
+
 func logToFile(threatLevel, threatType, attackerIP, affectedIP string) {
-    // Open the file in append mode, create if it doesn't exist
+    
     file, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
     if err != nil {
         log.Println("Error opening log file:", err)
@@ -54,80 +54,78 @@ func logToFile(threatLevel, threatType, attackerIP, affectedIP string) {
     }
     defer file.Close()
 
-    // Create a logger
+
     logger := log.New(file, "", 0)
 
-    // Get the current timestamp
+
     timestamp := time.Now().Format("2006-01-02 15:04:05")
 
-    // Log the message
+
     logEntry := fmt.Sprintf("[%s] %s threat detected (%s) from IP: %s -> IP: %s\n",
         timestamp, threatLevel, threatType, attackerIP, affectedIP)
 
-    // Write to file
+
     logger.Println(logEntry)
 }
 
-// predefinedThreats is a list of known threat signatures
+
 var predefinedThreats = []ThreatSignature{
 	{
-		// Added additional functions like passthru, popen, and proc_open.
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:eval|system|exec|shell_exec|passthru|popen|proc_open)\s*\(`),
 		Description: "Potential Remote Code Execution",
 		Severity:    CriticalThreat,
 	},
 	{
-		// Expanded SQL injection detection:
-		// - Captures common commands like DROP, UNION, SELECT, INSERT, UPDATE, DELETE.
-		// - Includes patterns for boolean-based injections such as ' OR '1'='1.
+		
 		Pattern: regexp.MustCompile(`(?i)\b(?:drop\s+table|union\s+select|select\s+\*\s+from|insert\s+into|update\s+\S+\s+set|delete\s+from|(?:(?:or|and)\s+(?:'|")?1(?:'|")?\s*=\s*(?:'|")?1(?:'|")?))\b`),
 		Description: "Potential SQL Injection",
 		Severity:    HighThreat,
 	},
 	{
-		// Expanded XSS detection with additional event handlers.
+		
 		Pattern:     regexp.MustCompile(`(?i)(<\s*script\b|javascript\s*:|onerror\s*=|onload\s*=)`),
 		Description: "Potential Cross-Site Scripting (XSS)",
 		Severity:    HighThreat,
 	},
 	{
-		// Added additional common network tools and ensured a word boundary.
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:wget|curl|netcat|ncat|scp|sftp)\b(?:\s+|$)`),
 		Description: "Potential Malicious Network Tool Usage",
 		Severity:    MediumThreat,
 	},
 	{
-		// Tightened word boundaries and allowed for minor variations (e.g. fast-flux written with a hyphen or space).
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:\.onion|torproject|\.xyz|fast[-\s]?flux|dns\s*[-]?\s*tunnel)\b`),
 		Description: "DNS Tunnel",
 		Severity:    MediumThreat,
 	},
 	{
-		// Added a few extra malware names for broader coverage.
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:emotet|wannacry|cobaltstrike|mirai|botnet|trickbot|locky)\b`),
 		Description: "Malware Traffic",
 		Severity:    HighThreat,
 	},
 	{
-		// Included "beacon" and allowed flexible whitespace around the colon.
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:pingback|heartbeat|keepalive|beacon|user-agent\s*:\s*malware)\b`),
 		Description: "C2 Traffic",
 		Severity:    MediumThreat,
 	},
 	{
-		// Included a variant for detecting exit nodes in addition to hidden services.
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:tor\s+network\s+detected|hidden\s+service\s+access|tor\s+exit\s+node)\b`),
 		Description: "Tor Traffic",
 		Severity:    HighThreat,
 	},
 	{
-		// Expanded ransomware variants.
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:wannacry|wnry|wannadecryptor|locky|cryptolocker|ryuk)\b`),
 		Description: "Ransomware",
 		Severity:    CriticalThreat,
 	},
 	{
-		// Added a few more Nmap scan types.
+		
 		Pattern:     regexp.MustCompile(`(?i)\b(?:nmap\s+scan\s+detected|syn\s+scan|null\s+scan|xmas\s+scan|ack\s+scan|fin\s+scan)\b`),
 		Description: "Nmap Scan",
 		Severity:    MediumThreat,
@@ -136,7 +134,7 @@ var predefinedThreats = []ThreatSignature{
 
 
 
-// flowMap tracks network flows for behavioral analysis
+
 var flowMap = make(map[string]*Flow)
 
 func main() {
