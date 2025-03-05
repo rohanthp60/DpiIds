@@ -1,40 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .status {
+            font-size: 18px;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-running {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status-stopped {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        form {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Admin Dashboard</h1>
-    <h2>Detector Status: 
-        {% if detectorRunning %}
-            <span style="color: green;">Running</span>
-        {% else %}
-            <span style="color: red;">Stopped</span>
-        {% endif %}
-    </h2>
-    <form action="{% url 'toggle_detector' %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Toggle Detector</button>
-    </form>
-
-    <form action="{% url 'network_usage' %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Network Usage</button>
-    </form>
-
-    <form action="{% url 'dpi_alerts' %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">DPI Alerts</button>
-    </form>
-
-    <form action="{% url 'snort_alerts' %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Snort Alerts</button>
-    </form>
-
-    <form action="{% url 'logout' %}" method="POST"></form>
-        {% csrf_token %}
-        <button type="submit">Log Out</button>
-    </form>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <div class="status {% if detectorRunning %}status-running{% else %}status-stopped{% endif %}">
+            Detector Status: {% if detectorRunning %}Running{% else %}Stopped{% endif %}
+        </div>
+        <form action="{% url 'toggle_detector' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn">Toggle Detector</button>
+        </form>
+        <form action="{% url 'network_usage' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn">Network Usage</button>
+        </form>
+        <form action="{% url 'dpi_alerts' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn">DPI Alerts</button>
+        </form>
+        <form action="{% url 'snort_alerts' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn">Snort Alerts</button>
+        </form>
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn" style="background: #dc3545;">Log Out</button>
+        </form>
+    </div>
 </body>
 </html>

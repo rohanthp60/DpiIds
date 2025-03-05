@@ -1,4 +1,6 @@
-[2025-03-04 11:38:06] High threat detected (Potential SQL Injection) from IP: 10.0.2.7 -> IP: 10.0.2.5
+[2025-03-04 16:36:20] High threat detected (Potential SQL Injection) from IP: 10.0.2.7 -> IP: 10.0.2.5
 
-[2025-03-04 11:38:15] High threat detected (Potential Cross-Site Scripting (XSS)) from IP: 10.0.2.7 -> IP: 10.0.2.5
+[2025-03-04 16:36:22] High threat detected (Potential SQL Injection) from IP: 10.0.2.7 -> IP: 10.0.2.5
+
+[2025-03-04 16:36:34] High threat detected (Potential Cross-Site Scripting (XSS)) from IP: 10.0.2.7 -> IP: 10.0.2.5
 

@@ -1,12 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Alerts</title>
-    </head>
-    <body>
+<head>
+    <title>Alerts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 22px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
         <h1>Alerts</h1>
-        <h2>Alerts Data</h2>
-        <table border="1">
+        <table>
             <tr>
                 <th>Timestamp</th>
                 <th>Threat Level</th>
@@ -24,7 +82,8 @@
         </table>
         <form action="{% url 'home' %}" method="POST">
             {% csrf_token %}
-            <button type="submit">Home</button>
+            <button type="submit" class="btn">Back to Home</button>
         </form>
-    </body>
+    </div>
+</body>
 </html>

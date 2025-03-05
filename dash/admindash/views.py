@@ -49,6 +49,8 @@ def toggle_detector(request):
         dpi_detector.kill()
         detectorRunning = False
     else:
+        subprocess.run("rm /home/vm3/Codes/DpiIds/snort_fifo.pcap", shell=True)
+        subprocess.run("mkfifo /home/vm3/Codes/DpiIds/snort_fifo.pcap", shell=True)
         detector = subprocess.Popen(f"echo {password} | sudo -S {detector_command}", shell=True)
         snort_process = subprocess.Popen(f"echo {password} | sudo -S {snort_command}", shell=True)
         dpi_detector = subprocess.Popen(f"echo {password} | sudo -S {dpi_command}", shell=True)

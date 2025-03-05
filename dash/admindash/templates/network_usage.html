@@ -1,29 +1,82 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Network Usage</title>
-    </head>
-
-    <body>
+<head>
+    <title>Network Usage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
         <h1>Network Usage</h1>
         <h2>MAC Address Data</h2>
-    <table>
-        <tr>
-            <th>MAC Address</th>
-            <th>Bytes Sent</th>
-            <th>Bytes Received</th>
-        </tr>
-        {% for key, value in data.items %}
-        <tr>
-            <td>{{ value.mac }}</td>
-            <td>{{ value.bytes_sent }}</td>
-            <td>{{ value.bytes_received }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        <table>
+            <tr>
+                <th>MAC Address</th>
+                <th>Bytes Sent</th>
+                <th>Bytes Received</th>
+            </tr>
+            {% for key, value in data.items %}
+            <tr>
+                <td>{{ value.mac }}</td>
+                <td>{{ value.bytes_sent }}</td>
+                <td>{{ value.bytes_received }}</td>
+            </tr>
+            {% endfor %}
+        </table>
         <form action="{% url 'home' %}" method="POST">
             {% csrf_token %}
-            <button type="submit">Home</button>
+            <button type="submit" class="btn">Home</button>
         </form>
-    </body>
+    </div>
+</body>
 </html>
