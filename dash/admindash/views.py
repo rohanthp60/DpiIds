@@ -10,6 +10,7 @@ detectorRunning = False
 detector = None
 snort_process = None
 dpi_detector = None
+cpu_usage = None
 
 def login_view(request):
     if request.method == 'POST':
@@ -39,14 +40,17 @@ def toggle_detector(request):
     global detector
     global snort_process
     global dpi_detector
+    global cpu_usage
     password = "rohan20603"
     snort_command = "sudo snort -A fast -q -c /etc/snort/snort.conf -r /home/vm3/Codes/DpiIds/snort_fifo.pcap"
     detector_command = 'sudo go run /home/vm3/Codes/DpiIds/snortFilter.go'
     dpi_command = 'sudo go run /home/vm3/Codes/DpiIds/dpi.go'
+    cpu_usage_command = 'sudo go run /home/vm3/Codes/DpiIds/cpuUtil.go'
     if detectorRunning:
         snort_process.kill()
         detector.kill()
         dpi_detector.kill()
+        cpu_usage.kill()
         detectorRunning = False
     else:
         subprocess.run("rm /home/vm3/Codes/DpiIds/snort_fifo.pcap", shell=True)
@@ -54,6 +58,7 @@ def toggle_detector(request):
         detector = subprocess.Popen(f"echo {password} | sudo -S {detector_command}", shell=True)
         snort_process = subprocess.Popen(f"echo {password} | sudo -S {snort_command}", shell=True)
         dpi_detector = subprocess.Popen(f"echo {password} | sudo -S {dpi_command}", shell=True)
+        cpu_usage = subprocess.Popen(f"echo {password} | sudo -S {cpu_usage_command}", shell=True)
         detectorRunning = True
     return redirect('home')
 
